@@ -48,7 +48,7 @@ Vote_analysis <- Vote_data %>%
 #####------------Part 2------------------
 #Provide census key and variables discussed in class sessions
 
-census_api_key("d525a15c915cddd1c7cc8ac0fd02c2c42999b407",install = TRUE)
+#census_api_key("d525a15c915cddd1c7cc8ac0fd02c2c42999b407",install = TRUE)
 census_variables <- c("B01001_001","B01001_002","B02001_002","B02001_003","B01002_002","B01002_003")
 
 #-------Data Analysis
@@ -60,6 +60,8 @@ acs <- get_acs(geography = "county",
                geometry = TRUE)
 
 main <- acs %>%
+  select(!moe) %>% #You needed to remove the moe first because this causes the large matrix of NAs that messed
+                    #up your last map because between the ID and the moe, it creates more "unique" observations.
   pivot_wider(names_from = "variable", values_from = "estimate") %>%
   rename("TotPop"="B01001_001",
          "Male"="B01001_002",
@@ -73,7 +75,7 @@ main <- acs %>%
          GEOID = as.numeric(GEOID))
 
 main_inp <- main %>%
-  select(-c("NAME", "moe", "White", "Black","Male"))
+  select(-c("NAME", "White", "Black","Male")) #"moe", removed
 
 
 #####--------Part 3--------------------
