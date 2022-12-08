@@ -16,7 +16,7 @@ vote <- read.csv("./Data/Vote Data.csv") #Import voting data
 
 covid <- read.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv") #import covid data
 
-census_api_key("d525a15c915cddd1c7cc8ac0fd02c2c42999b407",install = TRUE) # use census key
+#census_api_key("d525a15c915cddd1c7cc8ac0fd02c2c42999b407",install = TRUE) # use census key
 
 #####---------------------Part 1-----------------------------
 
@@ -111,7 +111,7 @@ Vote_Covid <- full_join(census, Covid_state, by = "GEOID") %>%
 summary(Vote_Covid)
 
 
-core2 <- core %>%
+core2 <- Vote_Covid %>% #yOU HAVE THIS LISTED AS core WHICH IS NOT THE DATASET YOU CREATED
   mutate(s.fips = substr(GEOID, 1, 2),
          state = case_when(s.fips == "18" ~ "Indiana",
                            s.fips == "39" ~ "Ohio",
